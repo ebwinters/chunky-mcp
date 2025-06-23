@@ -7,7 +7,7 @@ Before:
 
 After:
 
-![after](images/after1.png)![](images/after1.png)
+![after](images/after1.png)![](images/after2.png)
 
 ## Quick Install
 ### Using UV
