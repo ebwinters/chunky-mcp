@@ -81,21 +81,21 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "chunky-mcp-utils", specifier = "==0.1.2" },
+    { name = "chunky-mcp-utils", specifier = "==0.1.3" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.9.4" },
     { name = "requests" },
 ]
 
 [[package]]
 name = "chunky-mcp-utils"
-version = "0.1.2"
+version = "0.1.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "mcp", extra = ["cli"] },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/17/c7/ad9e864a6c84e13aaaf14739c2314f083be30fdca5c7084a91695a32f5ca/chunky_mcp_utils-0.1.2.tar.gz", hash = "sha256:cc572baabdbbe5943136e3e9d59fea9134bbb6b6bdca01f03eba7d8dbb9cc150", size = 2317, upload-time = "2025-06-23T14:27:11.879Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b8/a6/b73d38b9c1943ee5ee23caa09cf1c80569d5190e9931d5c6ccd168be1ed7/chunky_mcp_utils-0.1.3.tar.gz", hash = "sha256:fd3645b0b996d6776ac1723cc63714058c7fdc6d2bc12f75793a508e9757b0e8", size = 2293, upload-time = "2025-06-23T16:16:13.21Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b6/da/c234e6a4c8e3bcd80426d3dd1ac1445d6a3da9deb8c5dac90ae9ba52ae8c/chunky_mcp_utils-0.1.2-py3-none-any.whl", hash = "sha256:f37849435c6750a5e3ead4ff9a1bd2ab3791673ecf4154b52b5cd6e58cc6fc41", size = 2758, upload-time = "2025-06-23T14:27:11.059Z" },
+    { url = "https://files.pythonhosted.org/packages/41/c4/6ede88a764bcf1f2c0ca0da1bae2331831dc2a449d9f94491ffad63f38b3/chunky_mcp_utils-0.1.3-py3-none-any.whl", hash = "sha256:115c083f1692dabf30394aaf68f5c3c9cba6fcc13dc9701a6fa19d2d01d6775e", size = 2691, upload-time = "2025-06-23T16:16:11.802Z" },
 ]
 
 [[package]]
