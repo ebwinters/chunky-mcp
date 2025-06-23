@@ -10,7 +10,7 @@ After:
 ![after](images/after1.png)![](images/after2.png)
 
 ## Quick Install
-### Using UV
+### Using Pip
 
 ### Cloning 
 1. `git clone https://github.com/ebwinters/chunky-mcp.git`
