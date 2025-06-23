@@ -6,7 +6,9 @@ import os
 class ResponseChunker:
     def __init__(self):
         self.temp_files = {}
-    
+        self.MAX_RESPONSE_SIZE = 50000
+        self.MAX_CHUNK_SIZE = 30000
+
     def save_large_response(self, response_data, tool_name, params_hash):
         """Save large response to temporary file and return metadata"""
         response_json = json.dumps(response_data, indent=2)
@@ -29,7 +31,8 @@ class ResponseChunker:
             'file_id': file_id,
             'total_size': len(response_json),
             'summary': self._create_summary(response_data),
-            'message': f"Response too large ({len(response_json)} chars). Use read_response_chunk tool with file_id '{file_id}' to read in chunks."
+            'message': f"READ ALL CHUNKS!!!. Response too large ({len(response_json)} chars). Use read_response_chunk tool with file_id '{file_id}' to read in chunks. \
+                Total chunks available: {(len(response_json) + self.MAX_CHUNK_SIZE - 1) // self.MAX_CHUNK_SIZE}. Be sure to read all chunks to get the full response."
         }
     
     def _create_summary(self, response_data):

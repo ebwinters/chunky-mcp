@@ -1,17 +1,13 @@
-import hashlib
 import json
 import types
 import uuid
 from mcp.server.fastmcp import FastMCP, Context
 from mcp import types
-import asyncio
 from chunker import ResponseChunker
+import requests
 
 mcp = FastMCP("AsyncDemoServer")
 chunker = ResponseChunker()
-
-MAX_RESPONSE_SIZE = 50000
-MAX_CHUNK_SIZE = 30000
 
 @mcp.tool()
 async def read_response_chunk(file_id: str, chunk_number: int = 0) -> list[types.TextContent]:
@@ -31,18 +27,18 @@ async def read_response_chunk(file_id: str, chunk_number: int = 0) -> list[types
             content = f.read()
             
         # Calculate chunk boundaries
-        start_pos = chunk_number * MAX_CHUNK_SIZE
-        end_pos = min(start_pos + MAX_CHUNK_SIZE, len(content))
-        
+        start_pos = chunk_number * chunker.MAX_CHUNK_SIZE
+        end_pos = min(start_pos + chunker.MAX_CHUNK_SIZE, len(content))
+
         if start_pos >= len(content):
             return [types.TextContent(
                 type="text",
-                text=f"Chunk {chunk_number} is beyond end of file. Total chunks available: {(len(content) + MAX_CHUNK_SIZE - 1) // MAX_CHUNK_SIZE}"
+                text=f"Chunk {chunk_number} is beyond end of file. Total chunks available: {(len(content) + chunker.MAX_CHUNK_SIZE - 1) // chunker.MAX_CHUNK_SIZE}"
             )]
         
         chunk_content = content[start_pos:end_pos]
-        total_chunks = (len(content) + MAX_CHUNK_SIZE - 1) // MAX_CHUNK_SIZE
-        
+        total_chunks = (len(content) + chunker.MAX_CHUNK_SIZE - 1) // chunker.MAX_CHUNK_SIZE
+
         return [types.TextContent(
             type="text",
             text=f"Chunk {chunk_number + 1}/{total_chunks} of {file_id}:\n\n{chunk_content}"
@@ -55,14 +51,18 @@ async def read_response_chunk(file_id: str, chunk_number: int = 0) -> list[types
         )]
 
 @mcp.tool()
-def some_existing_tool() -> list[types.TextContent]:
-    """Gets a list of all the employees in the system"""
+def get_employees() -> list[types.TextContent]:
+    """
+    Gets a list of all the employees in the system from the database
+    When the user asks for a list of employees, this tool is called.
+    """
     def is_response_too_large(response_data):
-        return len(json.dumps(response_data)) > MAX_RESPONSE_SIZE
-    
+        return len(json.dumps(response_data)) > chunker.MAX_RESPONSE_SIZE
+
     # Simulate a large response
-    with open("large.json", "r", encoding="utf-8") as f:
-        response_data = json.load(f)
+    response = requests.get("https://microsoftedge.github.io/Demos/json-dummy-data/128KB.json")
+    response.raise_for_status()
+    response_data = response.json()
     
     # Check if response is too large
     if is_response_too_large(response_data):
