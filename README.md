@@ -2,9 +2,11 @@
 An MCP server to handle chunking and reading large responses
 
 Before:
+
 ![before](images/before.png)
 
 After:
+
 ![after](images/after1.png)![](images/after1.png)
 
 ## Quick Install
