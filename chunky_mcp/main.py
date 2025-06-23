@@ -7,19 +7,17 @@ mcp = FastMCP("AsyncDemoServer")
 _chunker = chunker.ResponseChunker()
 
 @mcp.tool()
-async def read_response_chunk(file_id: str, chunk_number: int = 0) -> list[types.TextContent]:
+async def read_response_chunk(file_path: str, chunk_number: int = 0) -> list[types.TextContent]:
     """Read a chunk of a previously saved large response"""
 
-    if file_id not in _chunker.temp_files:
+    if file_path not in _chunker.temp_files:
         return [types.TextContent(
             type="text",
-            text=f"Error: file_id '{file_id}' not found or expired"
+            text=f"Error: file_path '{file_path}' not found or expired"
         )]
 
-    file_info = _chunker.temp_files[file_id]
-
     try:
-        with open(file_info['file_path'], 'r') as f:
+        with open(file_path, 'r') as f:
             # Read the entire file (for JSON parsing)
             content = f.read()
             
@@ -38,7 +36,7 @@ async def read_response_chunk(file_id: str, chunk_number: int = 0) -> list[types
 
         return [types.TextContent(
             type="text",
-            text=f"Chunk {chunk_number + 1}/{total_chunks} of {file_id}:\n\n{chunk_content}"
+            text=f"Chunk {chunk_number + 1}/{total_chunks} of {file_path}:\n\n{chunk_content}"
         )]
         
     except Exception as e:
