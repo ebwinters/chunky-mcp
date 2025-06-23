@@ -19,6 +19,5 @@ def get_employees() -> list[types.TextContent]:
     
     return handle_large_response(
         response_data,
-        get_employees.__name__,
-        _chunker
+        get_employees.__name__
     )
