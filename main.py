@@ -4,7 +4,6 @@ import uuid
 from mcp.server.fastmcp import FastMCP, Context
 from mcp import types
 from chunky_mcp_utils import handle_large_response, chunker
-import requests
 
 mcp = FastMCP("AsyncDemoServer")
 _chunker = chunker.ResponseChunker()
@@ -49,38 +48,6 @@ async def read_response_chunk(file_id: str, chunk_number: int = 0) -> list[types
             type="text",
             text=f"Error reading chunk: {str(e)}"
         )]
-
-@mcp.tool()
-def get_employees() -> list[types.TextContent]:
-    """
-    Gets a list of all the employees in the system from the database
-    When the user asks for a list of employees, this tool is called.
-    """
-    def is_response_too_large(response_data):
-        return len(json.dumps(response_data)) > _chunker.MAX_RESPONSE_SIZE
-
-    # Simulate a large response
-    response = requests.get("https://microsoftedge.github.io/Demos/json-dummy-data/128KB.json")
-    response.raise_for_status()
-    response_data = response.json()
-    
-    # Check if response is too large
-    if is_response_too_large(response_data):
-        # Create a hash of the parameters for unique identification
-        unique_hash = str(uuid.uuid4())[:8]  # Take first 8 chars of the UUID        
-        # Save to file and return metadata
-        chunk_info = _chunker.save_large_response(response_data, "your_tool_name", unique_hash)
-
-        return [types.TextContent(
-            type="text",
-            text=json.dumps(chunk_info, indent=2)
-        )]
-    
-    # Return normally if response is small enough
-    return [types.TextContent(
-        type="text",
-        text=json.dumps(response_data, indent=2)
-    )]
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")
