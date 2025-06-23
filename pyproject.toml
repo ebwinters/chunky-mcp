@@ -9,3 +9,9 @@ dependencies = [
     "requests",
     "chunky-mcp-utils"
 ]
+
+[project.scripts]
+chunky-mcp = "chunky_mcp.main:main"
+
+[tool.setuptools]
+packages = ["chunky_mcp"]

@@ -1,9 +1,7 @@
-import json
 import types
-import uuid
-from mcp.server.fastmcp import FastMCP, Context
+from mcp.server.fastmcp import FastMCP
 from mcp import types
-from chunky_mcp_utils import handle_large_response, chunker
+from chunky_mcp_utils import chunker
 
 mcp = FastMCP("AsyncDemoServer")
 _chunker = chunker.ResponseChunker()
@@ -49,5 +47,8 @@ async def read_response_chunk(file_id: str, chunk_number: int = 0) -> list[types
             text=f"Error reading chunk: {str(e)}"
         )]
 
-if __name__ == "__main__":
+def main():
     mcp.run(transport="stdio")
+
+if __name__ == "__main__":
+    main()
