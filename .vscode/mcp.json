@@ -1,0 +1,14 @@
+{
+    "servers": {
+        "chunky": {
+            "type": "stdio",
+            "command": "uv",
+            "args": [
+                "--directory",
+                "C:\\Users\\ebwin\\repos\\chunky-mcp",
+                "run",
+                "main.py"
+            ]
+        }
+    }
+}

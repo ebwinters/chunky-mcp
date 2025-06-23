@@ -13,32 +13,6 @@ chunker = ResponseChunker()
 MAX_RESPONSE_SIZE = 50000
 MAX_CHUNK_SIZE = 30000
 
-# Define an asynchronous tool
-@mcp.tool()
-async def fetch_data_from_api(url: str, ctx: Context) -> str:
-    """
-    Fetches data from a given URL asynchronously.
-    Simulates a network request with a delay.
-    """
-    await ctx.info(f"Fetching data from: {url}")
-    await asyncio.sleep(2)  # Simulate network delay
-    return f"Data successfully fetched from {url}"
-
-# Define another asynchronous tool that uses progress reporting
-@mcp.tool()
-async def process_items(items: list[str], ctx: Context) -> str:
-    """
-    Processes a list of items asynchronously with progress updates.
-    """
-    processed_count = 0
-    total_items = len(items)
-    for i, item in enumerate(items):
-        await ctx.info(f"Processing item: {item}")
-        await asyncio.sleep(0.5)  # Simulate processing time
-        processed_count += 1
-        await ctx.report_progress(processed_count, total_items)
-    return f"Finished processing {processed_count} items."
-
 @mcp.tool()
 async def read_response_chunk(file_id: str, chunk_number: int = 0) -> list[types.TextContent]:
     """Read a chunk of a previously saved large response"""
@@ -80,9 +54,9 @@ async def read_response_chunk(file_id: str, chunk_number: int = 0) -> list[types
             text=f"Error reading chunk: {str(e)}"
         )]
 
-mcp.tool()
-async def some_existing_tool() -> list[types.TextContent]:
-    """Your existing tool with large response handling"""
+@mcp.tool()
+def some_existing_tool() -> list[types.TextContent]:
+    """Gets a list of all the employees in the system"""
     def is_response_too_large(response_data):
         return len(json.dumps(response_data)) > MAX_RESPONSE_SIZE
     
