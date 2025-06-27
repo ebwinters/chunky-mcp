@@ -41,6 +41,15 @@ def my_tool() -> list[types.TextContent]:
     )
 ```
 
+Add MCP entry
+```json
+"chunky": {
+    "type": "stdio",
+    "command": "chunky-mcp",
+    "args": []
+}
+```
+
 
 ## Dev Setup
 1. Install `uv`
